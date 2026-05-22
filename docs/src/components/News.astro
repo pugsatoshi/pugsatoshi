@@ -1,0 +1,57 @@
+---
+import { news, type NewsItem } from '../data/news';
+
+interface Props {
+  limit?: number;
+}
+const { limit } = Astro.props;
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const isPreview = typeof limit === 'number' && limit > 0;
+
+const sortKey = (d: string) => {
+  const parts = d.split('.');
+  const y = parseInt(parts[0] ?? '0', 10);
+  const m = parseInt(parts[1] ?? '0', 10);
+  const day = parseInt(parts[2] ?? '0', 10);
+  return y * 10000 + m * 100 + day;
+};
+
+const sorted: NewsItem[] = news
+  .slice()
+  .sort((a, b) => sortKey(b.date) - sortKey(a.date));
+
+const visible: NewsItem[] = isPreview ? sorted.slice(0, limit) : sorted;
+---
+<section class="section shell" id="news">
+  <div class="section-head">
+    <h2>
+      <span data-i18n="en">News<span class="ja">お知らせ</span></span>
+      <span data-i18n="ja">お知らせ<span class="ja">News</span></span>
+    </h2>
+    <span class="aside">
+      <span data-i18n="en">{news.length} entries</span>
+      <span data-i18n="ja">{news.length} 件</span>
+    </span>
+  </div>
+  <ul class="news-list">
+    {visible.map((n) => (
+      <li>
+        <span class="news-date">{n.date}</span>
+        <span class="news-text">
+          <span data-i18n="en">{n.text}</span>
+          <span class="jp i18n-ja">{n.textJa}</span>
+        </span>
+      </li>
+    ))}
+  </ul>
+
+  {isPreview && (
+    <div class="pub-more">
+      <a class="pub-more-link" href={`${base}/news`}>
+        <span data-i18n="en">View all news →</span>
+        <span data-i18n="ja">すべてのお知らせを見る →</span>
+      </a>
+    </div>
+  )}
+</section>

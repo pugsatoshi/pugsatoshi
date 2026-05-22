@@ -1,0 +1,129 @@
+---
+import { publications, type Pub } from '../data/publications';
+
+interface Props {
+  limit?: number;
+}
+const { limit } = Astro.props;
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const isPreview = typeof limit === 'number' && limit > 0;
+
+const typeCounts: Record<string, number> = { All: publications.length };
+for (const p of publications) {
+  typeCounts[p.type] = (typeCounts[p.type] || 0) + 1;
+}
+const typeOrder = ['Journal', 'Conference', 'Workshop (JP)'];
+const types = ['All', ...typeOrder.filter((t) => typeCounts[t])];
+
+const chronological: Pub[] = publications
+  .slice()
+  .sort((a, b) => (a.year - b.year) || (a.order - b.order));
+const indexedByOriginal = new Map<Pub, number>();
+chronological.forEach((p, i) => indexedByOriginal.set(p, i));
+
+const sorted: Pub[] = publications
+  .slice()
+  .sort((a, b) => (b.year - a.year) || (b.order - a.order));
+
+const visible: Pub[] = isPreview ? sorted.slice(0, limit) : sorted;
+
+const byYear: [number, Pub[]][] = (() => {
+  const m = new Map<number, Pub[]>();
+  visible.forEach((p) => {
+    if (!m.has(p.year)) m.set(p.year, []);
+    m.get(p.year)!.push(p);
+  });
+  return [...m.entries()].sort((a, b) => b[0] - a[0]);
+})();
+---
+<section class="section shell" id="publications" data-active-type="All">
+  <div class="section-head">
+    <h2>
+      <span data-i18n="en">Publications &amp; papers<span class="ja">業績一覧</span></span>
+      <span data-i18n="ja">業績一覧<span class="ja">Publications &amp; papers</span></span>
+    </h2>
+    <span class="aside">
+      <span data-i18n="en">{publications.length} entries</span>
+      <span data-i18n="ja">{publications.length} 件</span>
+    </span>
+  </div>
+
+  {!isPreview && (
+    <div class="blog-toolbar" role="tablist">
+      {types.map((t) => (
+        <button
+          type="button"
+          class={'tag-chip' + (t === 'All' ? ' is-active' : '')}
+          data-filter={t}
+        >
+          {t}<span class="count">{typeCounts[t]}</span>
+        </button>
+      ))}
+    </div>
+  )}
+
+  <div class="pub-list">
+    {byYear.map(([year, items]) => (
+      <div class="pub-year-group" data-year={year}>
+        <h3 class="pub-year">{year}</h3>
+        <ol class="pub-items">
+          {items.map((p) => (
+            <li class="pub-item" data-type={p.type}>
+              <div class="pub-body">
+                <p class="pub-title">
+                  <span class="pub-num">[{String(indexedByOriginal.get(p)! + 1).padStart(2, '0')}]</span>
+                  {p.title}
+                </p>
+                <p class="pub-authors">{p.authors}</p>
+                <p class="pub-venue"><em>{p.venue}</em></p>
+                <div class="pub-foot">
+                  <span class="pub-type">{p.type}</span>
+                  {p.note && <span class="pub-note">{p.note}</span>}
+                  <span class="pub-links">
+                    {p.links.map((l) => (
+                      <a href={l.href} target="_blank" rel="noopener noreferrer">{l.label}</a>
+                    ))}
+                  </span>
+                </div>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+    ))}
+  </div>
+
+  {isPreview && (
+    <div class="pub-more">
+      <a class="pub-more-link" href={`${base}/publications`}>
+        <span data-i18n="en">View all publications →</span>
+        <span data-i18n="ja">すべての論文を見る →</span>
+      </a>
+    </div>
+  )}
+</section>
+
+<script>
+  const section = document.getElementById('publications');
+  if (section) {
+    const chips = section.querySelectorAll<HTMLButtonElement>('.tag-chip');
+    const items = section.querySelectorAll<HTMLElement>('.pub-item');
+    const groups = section.querySelectorAll<HTMLElement>('.pub-year-group');
+
+    chips.forEach((chip) => {
+      chip.addEventListener('click', () => {
+        const filter = chip.dataset.filter || 'All';
+        chips.forEach((c) => c.classList.toggle('is-active', c === chip));
+        items.forEach((item) => {
+          const match = filter === 'All' || item.dataset.type === filter;
+          item.hidden = !match;
+        });
+        groups.forEach((group) => {
+          const visible = group.querySelectorAll('.pub-item:not([hidden])').length;
+          group.style.display = visible === 0 ? 'none' : '';
+        });
+      });
+    });
+  }
+</script>

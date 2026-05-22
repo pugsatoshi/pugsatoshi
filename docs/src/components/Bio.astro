@@ -1,0 +1,22 @@
+---
+const bio = {
+  en: 'I am engaged in research and development in the fields of blockchain and generative AI at Hitachi, Ltd. I am interested in building practical technology platforms using open-source software(OSS), and my interests have expanded from blockchain-related technologies such as Hyperledger Fabric and Sovereign Identity(SSI)/Decentralized Identifier(DID) to generative AI-related technologies such as Agentic AI and domain-specific LLMs.',
+  ja: '日立製作所で、ブロックチェーンおよび生成AI領域の研究開発に従事しています。オープンソースソフトウェア(OSS)を活用した実用的な技術基盤の構築に関心があり、ブロックチェーン関連技術(Hyperledger Fabric, Self Sovereign Identity(SSI)/Decentralized Identifier(DID)など)から始まり生成AI関連技術(Agentic AI, 特化型LLMなど)へと関心を広げています。',
+  en2: 'Also, I am contributing to OSS through upstream activities in Hyperledger Fabric and MCP-related projects.',
+  ja2: 'また、Hyperledger FabricやMCP関連プロジェクトへのアップストリーム活動を通じて、OSSへの貢献にも取り組んでいます。',
+};
+---
+<section class="section shell" id="bio">
+  <div class="section-head">
+    <h2>
+      <span data-i18n="en">About<span class="ja">自己紹介</span></span>
+      <span data-i18n="ja">自己紹介<span class="ja">About</span></span>
+    </h2>
+  </div>
+  <div class="bio-prose">
+    <p data-i18n="en">{bio.en}</p>
+    <p data-i18n="en">{bio.en2}</p>
+    <p class="jp" data-i18n="ja">{bio.ja}</p>
+    <p class="jp" data-i18n="ja">{bio.ja2}</p>
+  </div>
+</section>

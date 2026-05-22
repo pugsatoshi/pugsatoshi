@@ -1,0 +1,11 @@
+---
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const year = new Date().getFullYear();
+---
+<footer class="shell colophon">
+  <span>
+    <span data-i18n="en">© {year} Satoshi Ito · All rights reserved.</span>
+    <span data-i18n="ja">© {year} Satoshi Ito · All rights reserved.</span>
+  </span>
+  <span class="right"><a href={`${base}/#top`}>↑ Top</a></span>
+</footer>

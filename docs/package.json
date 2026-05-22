@@ -1,0 +1,17 @@
+{
+  "name": "pugsatoshi-portfolio",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "npm run sync-assets && astro dev",
+    "start": "npm run dev",
+    "build": "npm run sync-assets && astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "sync-assets": "node scripts/sync-assets.mjs"
+  },
+  "dependencies": {
+    "astro": "^5.0.0"
+  }
+}

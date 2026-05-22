@@ -1,0 +1,145 @@
+---
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const avatar = `${base}/assets/SatoshiIto.jpg`;
+
+const items = [
+  { id: 'home',  label: 'Home',         href: `${base}/` },
+  { id: 'pubs',  label: 'Publications', href: `${base}/publications` },
+  { id: 'talks', label: 'Talks',        href: `${base}/talks` },
+  { id: 'news',  label: 'News',         href: `${base}/news` },
+];
+
+const path = Astro.url.pathname.replace(/\/+$/, '');
+const currentPage =
+  path.endsWith('/publications') ? 'pubs' :
+  path.endsWith('/talks')        ? 'talks' :
+  path.endsWith('/news')         ? 'news' :
+  'home';
+const isHomePage = currentPage === 'home' && !path.endsWith('/awards');
+---
+<header class="masthead" data-page={isHomePage ? 'home' : 'sub'}>
+  <div class="shell row">
+    <a class="brand" href={`${base}/`}>
+      <span class="brand-avatar">
+        <img src={avatar} alt="Satoshi Ito" width="28" height="28" />
+      </span>
+      <span class="brand-name">
+        <span data-i18n="en">Satoshi Ito</span>
+        <span data-i18n="ja">伊藤 哲</span>
+      </span>
+    </a>
+    <nav class="nav" aria-label="primary">
+      {items.map((i) => (
+        <a
+          href={i.href}
+          data-nav-id={i.id}
+          class={currentPage === i.id ? 'is-active' : ''}
+        >{i.label}</a>
+      ))}
+    </nav>
+    <div class="utility">
+      <div class="lang-toggle" role="group" aria-label="Language">
+        <button type="button" data-lang="en" aria-label="English">EN</button>
+        <button type="button" data-lang="ja" aria-label="日本語">JA</button>
+      </div>
+      <button id="theme-toggle" class="icon-btn" aria-label="Toggle theme">
+        <svg id="theme-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:none">
+          <circle cx="12" cy="12" r="4"></circle>
+          <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
+        </svg>
+        <svg id="theme-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<script>
+  const btn = document.getElementById('theme-toggle');
+  const sun = document.getElementById('theme-icon-sun');
+  const moon = document.getElementById('theme-icon-moon');
+
+  const syncIcon = () => {
+    const dark = document.documentElement.dataset.theme === 'dark';
+    if (sun) sun.style.display = dark ? '' : 'none';
+    if (moon) moon.style.display = dark ? 'none' : '';
+  };
+  syncIcon();
+
+  btn?.addEventListener('click', () => {
+    const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+    document.documentElement.dataset.theme = next;
+    try { localStorage.setItem('theme', next); } catch (e) {}
+    syncIcon();
+  });
+
+  const langButtons = document.querySelectorAll<HTMLButtonElement>('.lang-toggle button');
+  const syncLang = () => {
+    const cur = document.documentElement.dataset.lang === 'ja' ? 'ja' : 'en';
+    document.documentElement.lang = cur === 'ja' ? 'ja' : 'en';
+    langButtons.forEach((b) => b.classList.toggle('is-active', b.dataset.lang === cur));
+  };
+  syncLang();
+  langButtons.forEach((b) => {
+    b.addEventListener('click', () => {
+      const next = b.dataset.lang === 'ja' ? 'ja' : 'en';
+      document.documentElement.dataset.lang = next;
+      try { localStorage.setItem('lang', next); } catch (e) {}
+      syncLang();
+    });
+  });
+
+  const navLinks = document.querySelectorAll<HTMLAnchorElement>('.masthead .nav a[data-nav-id]');
+  const setActive = (id: string) => {
+    navLinks.forEach((a) => a.classList.toggle('is-active', a.dataset.navId === id));
+  };
+
+  const masthead = document.querySelector<HTMLElement>('.masthead');
+  const isHome = masthead?.dataset.page === 'home';
+  if (isHome) {
+    const sectionToNav: Record<string, string> = {
+      top: 'home',
+      bio: 'home',
+      research: 'home',
+      experience: 'home',
+      publications: 'pubs',
+      talks: 'talks',
+      awards: 'talks',
+      news: 'news',
+    };
+    const watched: HTMLElement[] = [];
+    Object.keys(sectionToNav).forEach((sid) => {
+      const el = document.getElementById(sid);
+      if (el) watched.push(el);
+    });
+
+    const visibility = new Map<string, number>();
+    watched.forEach((el) => visibility.set(el.id, 0));
+
+    const pickActive = () => {
+      let bestId = 'top';
+      let bestRatio = -1;
+      visibility.forEach((ratio, id) => {
+        if (ratio > bestRatio) { bestRatio = ratio; bestId = id; }
+      });
+      const navId = sectionToNav[bestId] || 'home';
+      setActive(navId);
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        visibility.set((e.target as HTMLElement).id, e.intersectionRatio);
+      });
+      pickActive();
+    }, { threshold: [0, 0.15, 0.35, 0.6, 0.85, 1] });
+
+    watched.forEach((el) => observer.observe(el));
+
+    window.addEventListener('hashchange', () => {
+      const h = location.hash.replace('#', '');
+      const navId = sectionToNav[h];
+      if (navId) setActive(navId);
+    });
+  }
+</script>

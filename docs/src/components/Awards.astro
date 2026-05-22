@@ -1,0 +1,54 @@
+---
+import { awards, type Award } from '../data/awards';
+
+interface Props {
+  limit?: number;
+}
+const { limit } = Astro.props;
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const isPreview = typeof limit === 'number' && limit > 0;
+
+const sortKey = (d: string) => {
+  const parts = d.split('.');
+  const y = parseInt(parts[0] ?? '0', 10);
+  const m = parseInt(parts[1] ?? '0', 10);
+  const day = parseInt(parts[2] ?? '0', 10);
+  return y * 10000 + m * 100 + day;
+};
+
+const sorted: Award[] = awards
+  .slice()
+  .sort((a, b) => sortKey(b.date) - sortKey(a.date));
+
+const visible: Award[] = isPreview ? sorted.slice(0, limit) : sorted;
+---
+<section class="section shell" id="awards">
+  <div class="section-head">
+    <h2>
+      <span data-i18n="en">Awards<span class="ja">受賞歴</span></span>
+      <span data-i18n="ja">受賞歴<span class="ja">Awards</span></span>
+    </h2>
+    <span class="aside">
+      <span data-i18n="en">{awards.length} entries</span>
+      <span data-i18n="ja">{awards.length} 件</span>
+    </span>
+  </div>
+  <ul class="news-list">
+    {visible.map((a) => (
+      <li>
+        <span class="news-date">{a.date}</span>
+        <span class="news-text"><strong>{a.title}</strong> — {a.venue}</span>
+      </li>
+    ))}
+  </ul>
+
+  {isPreview && (
+    <div class="pub-more">
+      <a class="pub-more-link" href={`${base}/awards`}>
+        <span data-i18n="en">View all awards →</span>
+        <span data-i18n="ja">すべての受賞歴を見る →</span>
+      </a>
+    </div>
+  )}
+</section>

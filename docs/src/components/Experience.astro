@@ -1,0 +1,62 @@
+---
+interface CvEntry {
+  year: string;
+  label: string;
+  labelJa: string;
+  sub?: string;
+  subJa?: string;
+}
+
+const cv: CvEntry[] = [
+  {
+    year: '2024.04 –',
+    label: 'Researcher, Hitachi, Ltd.',
+    labelJa: '企画員 / 株式会社日立製作所',
+    sub: 'Research on agentic AI, interoperability standards (A2A / MCP), and consortium blockchain.',
+    subJa: 'エージェンティック AI、相互運用標準（A2A / MCP）、コンソーシアム型ブロックチェーンの研究。',
+  },
+  {
+    year: '2022.04 – 2024.03',
+    label: 'Trainee, Hitachi, Ltd.',
+    labelJa: '研修員 / 株式会社日立製作所',
+  },
+  {
+    year: '2020.04 – 2022.03',
+    label: 'M.Eng., Ritsumeikan University',
+    labelJa: '立命館大学 大学院 理工学研究科 電子システム専攻（修士）',
+    sub: 'Graduate School of Science and Engineering, Major in Advanced Electronic and Computer Systems. System-Level Design Methodology Lab (Tomiyama Lab).',
+    subJa: '冨山研究室（システムレベル設計手法研究室）にて、配送ドローンのエネルギー / 風考慮ルーティングを研究。',
+  },
+  {
+    year: '2016.04 – 2020.03',
+    label: 'B.Eng., Ritsumeikan University',
+    labelJa: '立命館大学 理工学部 電子情報工学科（学士）',
+    sub: 'Department of Electronic and Computer Engineering, College of Science and Engineering.',
+  },
+];
+---
+<section class="section shell" id="experience">
+  <div class="section-head">
+    <h2>
+      <span data-i18n="en">Experience &amp; education<span class="ja">経歴・学歴</span></span>
+      <span data-i18n="ja">経歴・学歴<span class="ja">Experience &amp; education</span></span>
+    </h2>
+    <span class="aside">
+      <span data-i18n="en">CV available on request</span>
+      <span data-i18n="ja">CV available on request</span>
+    </span>
+  </div>
+  <ol class="cv-list">
+    {cv.map((c) => (
+      <li>
+        <span class="year">{c.year}</span>
+        <span class="label">
+          <span data-i18n="en">{c.label}</span>
+          <span class="jp i18n-ja">{c.labelJa}</span>
+          {c.sub && <span class="sub i18n-en">{c.sub}</span>}
+          {c.subJa && <span class="sub jp i18n-ja">{c.subJa}</span>}
+        </span>
+      </li>
+    ))}
+  </ol>
+</section>
