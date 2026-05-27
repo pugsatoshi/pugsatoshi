@@ -41,6 +41,13 @@ const visible: NewsItem[] = isPreview ? sorted.slice(0, limit) : sorted;
         <span class="news-text">
           <span data-i18n="en">{n.text}</span>
           <span class="jp i18n-ja">{n.textJa}</span>
+          {n.links && n.links.length > 0 && (
+            <span class="pub-links news-links">
+              {n.links.map((l) => (
+                <a href={l.href} target="_blank" rel="noopener noreferrer">{l.label}</a>
+              ))}
+            </span>
+          )}
         </span>
       </li>
     ))}

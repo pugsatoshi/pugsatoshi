@@ -548,6 +548,7 @@ html[data-lang="ja"] .i18n-en { display: none !important; }
 }
 .news-text.jp, .news-text .jp { font-family: var(--sans-jp); font-weight: 500; font-size: 14.5px; line-height: 1.85; }
 .news-text strong { font-weight: 700; }
+.news-links { display: inline-flex; flex-wrap: wrap; gap: 4px 12px; margin-left: 0; margin-top: 6px; }
 
 /* ---------- Colophon ---------- */
 .colophon {
