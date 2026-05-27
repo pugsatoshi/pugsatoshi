@@ -6,6 +6,11 @@ export interface NewsItem {
 
 export const news: NewsItem[] = [
   {
+    date: '2026.05.25',
+    text: 'Co-organizing Agentic Tokyo #1, a community meetup on AAIF / MCP / A2A, on June 16 at TSUNAGU BASE (KDDI Takanawa). https://aibuilders.connpass.com/event/394175/',
+    textJa: 'Agentic Tokyo #1（AAIF / MCP / A2A をテーマとしたコミュニティミートアップ）を 6 月 16 日に TSUNAGU BASE（KDDI 高輪本社）にて開催します。https://aibuilders.connpass.com/event/394175/',
+  },
+  {
     date: '2026.02.20',
     text: 'Spoke at LF AI & Data Japan RUG Meetup #3 on agentic AI interop standards (A2A / MCP).',
     textJa: 'LF AI & Data Japan RUG Meetup #3 にて、エージェンティック AI 相互運用標準（A2A / MCP）について講演。',
