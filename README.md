@@ -37,12 +37,21 @@ I build on top of open-source software and contribute upstream — currently act
 ## 📊 GitHub Activity
 
 <p>
-  <img height="160" src="https://github-readme-stats.vercel.app/api?username=pugsatoshi&show_icons=true&hide_border=true&include_all_commits=true&count_private=true">
-  <img height="160" src="https://github-readme-stats.vercel.app/api/top-langs/?username=pugsatoshi&layout=compact&hide_border=true&langs_count=8">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://github-readme-stats.vercel.app/api?username=pugsatoshi&show_icons=true&hide_border=true&include_all_commits=true&count_private=true&title_color=e8915a&icon_color=e8915a&text_color=f0efeb&bg_color=1c1b19">
+    <img height="160" src="https://github-readme-stats.vercel.app/api?username=pugsatoshi&show_icons=true&hide_border=true&include_all_commits=true&count_private=true&title_color=c2632f&icon_color=c2632f&text_color=2b2b2b&bg_color=fbfaf7">
+  </picture>
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://github-readme-stats.vercel.app/api/top-langs/?username=pugsatoshi&layout=compact&hide_border=true&langs_count=8&title_color=e8915a&text_color=f0efeb&bg_color=1c1b19">
+    <img height="160" src="https://github-readme-stats.vercel.app/api/top-langs/?username=pugsatoshi&layout=compact&hide_border=true&langs_count=8&title_color=c2632f&text_color=2b2b2b&bg_color=fbfaf7">
+  </picture>
 </p>
 
-<p>
-  <img src="https://github-readme-activity-graph.vercel.app/graph?username=pugsatoshi&theme=github-compact&hide_border=true&area=true">
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/pugsatoshi/pugsatoshi/output/github-snake-dark.svg">
+    <img alt="pugsatoshi's contribution snake" src="https://raw.githubusercontent.com/pugsatoshi/pugsatoshi/output/github-snake.svg">
+  </picture>
 </p>
 
 ## 🧭 Where to find me
