@@ -12,6 +12,15 @@ export interface NewsItem {
 
 export const news: NewsItem[] = [
   {
+    date: '2026.06.16',
+    text: 'Co-organized Agentic Tokyo #1, a community meetup on AAIF / MCP / A2A, at TSUNAGU BASE (KDDI Takanawa), and gave a talk on community trends seen from inside AAIF. Slides are now published.',
+    textJa: 'AAIF / MCP / A2A をテーマとしたコミュニティミートアップ Agentic Tokyo #1 を TSUNAGU BASE（KDDI 高輪本社）にて開催し、AAIF の内側から見えるコミュニティ動向について発表。スライドを公開しました。',
+    links: [
+      { label: 'slides', href: 'https://speakerdeck.com/sato4/aaifniru-tutemita-nei-karajian-erukomiyuniteidong-xiang' },
+      { label: 'connpass', href: 'https://aibuilders.connpass.com/event/394175/' },
+    ],
+  },
+  {
     date: '2026.05.25',
     text: 'Co-organizing Agentic Tokyo #1, a community meetup on AAIF / MCP / A2A, on June 16 at TSUNAGU BASE (KDDI Takanawa).',
     textJa: 'Agentic Tokyo #1（AAIF / MCP / A2A をテーマとしたコミュニティミートアップ）を 6 月 16 日に TSUNAGU BASE（KDDI 高輪本社）にて開催します。',

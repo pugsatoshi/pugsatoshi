@@ -15,6 +15,13 @@ export interface Talk {
 
 export const talks: Talk[] = [
   {
+    date: '2026.06.16',
+    title: 'AAIF に入ってみた 〜内から見えるコミュニティ動向〜',
+    venue: 'Agentic Tokyo #1、TSUNAGU BASE（KDDI 高輪本社）',
+    type: 'Speaker',
+    link: { label: 'slides', href: 'https://speakerdeck.com/sato4/aaifniru-tutemita-nei-karajian-erukomiyuniteidong-xiang' },
+  },
+  {
     date: '2026.02.20',
     title: 'New Standards Supporting Agentic AI Interoperability: A2A and MCP',
     venue: 'LF AI & Data Japan RUG Meetup #3, Fujitsu Kawasaki Tower',
